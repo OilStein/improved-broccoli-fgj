@@ -83,6 +83,7 @@ public class Mob : Area2D
 		StopMoving();
 		StopEating();
 		StopAnimation();
+		Input.VibrateHandheld(100);
 		// TODO: Increment resources / points
 		// TODO: Emit particles
 		// TODO: Play splat sound
