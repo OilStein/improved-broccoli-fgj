@@ -74,6 +74,7 @@ public class MainState : Node
 	{
 		isTransitioning = false;
 		StartMobSpawning();
+		GetNode<WeedSpawner>("WeedSpawner").Stop();
 		// Restart the cycle timer
 		GetNode<Timer>("DayNightCycleTimer").Start();
 	}
@@ -83,6 +84,7 @@ public class MainState : Node
 		isTransitioning = false;
 		// Mobs are no longer needed, remove them
 		ClearOutMobs();
+		GetNode<WeedSpawner>("WeedSpawner").Start();
 		// Restart the cycle timer
 		GetNode<Timer>("DayNightCycleTimer").Start();
 	}
