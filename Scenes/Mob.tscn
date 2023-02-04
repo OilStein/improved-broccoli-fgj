@@ -27,15 +27,19 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 16.0
+resource_local_to_scene = true
+radius = 74.0
+height = 6.0
 
 [node name="Mob" type="Area2D" groups=["mobs"]]
 z_index = 15
 script = ExtResource( 1 )
+ColliderRadiuses = PoolRealArray( 32, 40, 74 )
+ColliderHeights = PoolRealArray( 10, 10, 6 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-animation = "Bug1"
+animation = "Bug3"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )

@@ -3,6 +3,11 @@ using System;
 
 public class Mob : Area2D
 {
+	[Export]
+	public float[] ColliderRadiuses;
+	[Export]
+	public float[] ColliderHeights;
+
 	private bool isMoving = true;
 	private bool isEating = false;
 	private bool isSplat = false;
@@ -54,6 +59,10 @@ public class Mob : Area2D
 		var sprite = GetNode<AnimatedSprite>("AnimatedSprite");
 		int index = 1 + (int)(GD.Randi() % 3);
 		sprite.Animation = "Bug" + index.ToString();
+		var collision = GetNode<CollisionShape2D>("CollisionShape2D");
+		var shape = collision.Shape as CapsuleShape2D;
+		shape.Radius = ColliderRadiuses[index - 1];
+		shape.Height = ColliderHeights[index - 1];
 		StartAnimation();
 	}
 	
