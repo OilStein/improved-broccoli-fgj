@@ -1,27 +1,17 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/MainState.cs" type="Script" id=1]
 [ext_resource path="res://Art/Ground.png" type="Texture" id=2]
 [ext_resource path="res://Art/SkyDay.png" type="Texture" id=3]
-[ext_resource path="res://Art/Beetroot.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/Beetroot.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Mob.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/WeedSpawner.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/DebugHUD.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Art/FaceDay.png" type="Texture" id=9]
 [ext_resource path="res://Art/SkyNight.png" type="Texture" id=10]
-[ext_resource path="res://Art/FaceNight.png" type="Texture" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 3 ), ExtResource( 10 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-} ]
-
-[sub_resource type="SpriteFrames" id=2]
-animations = [ {
-"frames": [ ExtResource( 9 ), ExtResource( 11 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -45,7 +35,7 @@ z_index = 10
 texture = ExtResource( 2 )
 centered = false
 region_enabled = true
-region_rect = Rect2( 0, 0, 740, 740 )
+region_rect = Rect2( 0, 0, 740, 330 )
 
 [node name="SpriteSky" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
@@ -77,17 +67,8 @@ __meta__ = {
 
 [node name="DebugHUD" parent="." instance=ExtResource( 8 )]
 
-[node name="Beetroot" type="Node2D" parent="."]
-position = Vector2( 370, 1100 )
-z_index = 5
-
-[node name="SpriteRoot" type="Sprite" parent="Beetroot"]
-texture = ExtResource( 4 )
-offset = Vector2( 0, 260 )
-
-[node name="SpriteFace" type="AnimatedSprite" parent="Beetroot"]
-frames = SubResource( 2 )
-offset = Vector2( 0, -30 )
+[node name="Beetroot" parent="." instance=ExtResource( 4 )]
+position = Vector2( 368, 1353 )
 
 [connection signal="timeout" from="TransitionToNightTimer" to="." method="OnTransitionToNightTimerTimeout"]
 [connection signal="timeout" from="TransitionToDayTimer" to="." method="OnTransitionToDayTimerTimeout"]

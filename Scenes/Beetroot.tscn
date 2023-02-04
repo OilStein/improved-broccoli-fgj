@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Art/Beetroot.png" type="Texture" id=1]
 [ext_resource path="res://Art/Leaf1.png" type="Texture" id=2]
@@ -6,6 +6,14 @@
 [ext_resource path="res://Scripts/Characters/Beetroot.cs" type="Script" id=4]
 [ext_resource path="res://Art/FaceDay.png" type="Texture" id=5]
 [ext_resource path="res://Art/FaceNight.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": false,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="Beetroot" type="Node2D"]
 script = ExtResource( 4 )
@@ -28,17 +36,6 @@ position = Vector2( -82, -74 )
 rotation = -0.00406069
 texture = ExtResource( 2 )
 
-[node name="Face" type="Node2D" parent="."]
+[node name="SpriteFace" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -320 )
-
-[node name="Day" type="Sprite" parent="Face"]
-visible = false
-texture = ExtResource( 5 )
-
-[node name="Night" type="Sprite" parent="Face"]
-visible = false
-position = Vector2( 0, -10 )
-texture = ExtResource( 6 )
-
-[node name="Blink" type="Sprite" parent="Face"]
-visible = false
+frames = SubResource( 1 )
