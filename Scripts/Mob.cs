@@ -14,7 +14,8 @@ public class Mob : Area2D
 	private Vector2 currentDirection = new Vector2(0, -1);
 	private float targetDesiredAngleOffset = 0.0f;
 	
-	private float maxDesiredAngleOffsetDegrees = 20.0f;
+	private float minDesiredAngleOffsetDegrees = 15.0f;
+	private float maxDesiredAngleOffsetDegrees = 30.0f;
 	private float minDirectionChangeInterval = 2.0f;
 	private float maxDirectionChangeInterval = 6.0f;
 	
@@ -50,13 +51,18 @@ public class Mob : Area2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		
+		var sprite = GetNode<AnimatedSprite>("AnimatedSprite");
+		int index = 1 + (int)(GD.Randi() % 3);
+		sprite.Animation = "Bug" + index.ToString();
+		StartAnimation();
 	}
 	
 	// Called when there's an input event on this CollisionObject2D
 	private void OnInputEvent(object viewport, object @event, int shape_idx)
 	{
-		Splat();
+		if (!isSplat && @event is InputEventMouseButton) {
+			Splat();
+		}
 	}
 
 	// Called when another Area2D enters this area
@@ -115,17 +121,25 @@ public class Mob : Area2D
 		GetNode<Timer>("EatingTimer").Stop();
 	}
 	
+	private void StartAnimation()
+	{
+		GetNode<AnimatedSprite>("AnimatedSprite").Playing = true;
+	}
+	
 	// Stops the mob's current animation from playing
 	private void StopAnimation()
 	{
-		//GetNode<AnimatedSprite>("AnimatedSprite").Playing = false;
+		GetNode<AnimatedSprite>("AnimatedSprite").Playing = false;
 	}
 	
 	// Called periodically when the mob wants to change direction
 	private void OnDirectionChangeTimerTimeout()
 	{
 		// Choose a new direction offset
-		targetDesiredAngleOffset = Mathf.Deg2Rad((float)GD.RandRange(-maxDesiredAngleOffsetDegrees, maxDesiredAngleOffsetDegrees));
+		float offset = (float)GD.RandRange(minDesiredAngleOffsetDegrees, maxDesiredAngleOffsetDegrees);
+		int offsetSign = (int)(GD.Randi() % 2) * 2 - 1;
+		offset *= offsetSign;
+		targetDesiredAngleOffset = Mathf.Deg2Rad(offset); // Mathf.Deg2Rad((float)GD.RandRange(-maxDesiredAngleOffsetDegrees, maxDesiredAngleOffsetDegrees));
 		// Reset this timer with a random interval
 		GetNode<Timer>("DirectionChangeTimer").Start((float)GD.RandRange(minDirectionChangeInterval, maxDirectionChangeInterval));
 	}
@@ -170,10 +184,10 @@ public class Mob : Area2D
 			// Decrease the angle delta
 			angleDelta *= Mathf.Exp(-rotateSpeed * delta);
 			// Rotate current direction towards desired
-			SetDirection(currentDirection.Rotated(angleDelta));
+			SetDirection(currentDirection.Rotated(-angleDelta));
 			// Move towards the desired direction
-			//Vector2 moveDelta = currentDirection.LimitLength(CrawlSpeed * delta);
-			Vector2 moveDelta = toTarget.LimitLength(CrawlSpeed * delta);
+			Vector2 moveDelta = currentDirection.LimitLength(CrawlSpeed * delta);
+			//Vector2 moveDelta = toTarget.LimitLength(CrawlSpeed * delta);
 			Position += moveDelta;
 		}
 	}
