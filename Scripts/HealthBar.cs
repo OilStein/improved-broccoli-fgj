@@ -27,7 +27,7 @@ namespace Beatroot
         /// </summary>
         public void Update()
         {
-            if (GetParent<BaseCharacter>() != null && GetParent<BaseCharacter>().Get("MaxHealth") != null)
+            if (GetParent<BaseCharacter>() != null && GetParent<BaseCharacter>().Get("CurrentHealth") != null)
             {
                 _bar.Value = (double)GetParent<BaseCharacter>().Get("CurrentHealth");
             }
