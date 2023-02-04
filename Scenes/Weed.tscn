@@ -15,6 +15,7 @@ position = Vector2( 125, 127 )
 script = ExtResource( 1 )
 StretchDistance = 200.0
 BreakPointDistance = 400.0
+StretchScaleModifier = Vector2( 0.01, -0.001 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -32 )
