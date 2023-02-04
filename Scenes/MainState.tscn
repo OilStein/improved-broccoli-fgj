@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scripts/MainState.cs" type="Script" id=1]
 [ext_resource path="res://Art/Ground.png" type="Texture" id=2]
-[ext_resource path="res://Art/Sky.png" type="Texture" id=3]
+[ext_resource path="res://Art/SkyDay.png" type="Texture" id=3]
 [ext_resource path="res://Art/Beetroot.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Mob.tscn" type="PackedScene" id=5]
 
