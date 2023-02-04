@@ -14,6 +14,10 @@ public class Weed : Area2D
 	public float DownwardDragLimit = 5;
 	[Export]
 	public Vector2 StretchScaleModifier = new Vector2(0.01f, -0.01f);
+
+	[Export]
+	public string TouchInputNodePath = "/root/MainState/TouchInput";
+
 	public float MinDragThreshold = 0.01f; // Drag length below this is ignored
 	
 	private static readonly string mouseClickAction = "mouse_left_click";
@@ -34,6 +38,11 @@ public class Weed : Area2D
 
 	public override void _Ready()
 	{
+		var touchInput = GetNode<Area2D>(TouchInputNodePath);
+		if (touchInput != null)
+		{
+			touchInput.Connect("input_event", this, "OnInputEvent");
+		}
 		Release();
 	}
 
