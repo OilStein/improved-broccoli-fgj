@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Beetroot1.png-6293dfe27c69b7e8b3dc1b31d4272136.stex"
+path="res://.import/Sun.png-e898bc77f36f0754e62688307aa38d1a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Beetroot1.png"
-dest_files=[ "res://.import/Beetroot1.png-6293dfe27c69b7e8b3dc1b31d4272136.stex" ]
+source_file="res://Art/Sun.png"
+dest_files=[ "res://.import/Sun.png-e898bc77f36f0754e62688307aa38d1a.stex" ]
 
 [params]
 
