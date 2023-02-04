@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class WeedSpawner : Node
 {
 	[Export]
-	public PackedScene WeedInstanceScene;
+	public PackedScene[] WeedInstanceScene;
 
     private RandomNumberGenerator rng;
 
@@ -37,7 +37,7 @@ public class WeedSpawner : Node
             }
         }
 
-        if (spawnPointNodes.Count == 0)
+        if (spawnPointNodes.Count == 0 || WeedInstanceScene.Length == 0)
         {
             return;
         }
@@ -45,7 +45,9 @@ public class WeedSpawner : Node
         int index = rng.RandiRange(0, spawnPointNodes.Count - 1);
         var spawnNode = spawnPointNodes[index];
 
-        var weed = WeedInstanceScene.Instance<Weed>();
+        int weedTypeIndex = rng.RandiRange(0, WeedInstanceScene.Length - 1);
+
+        var weed = WeedInstanceScene[weedTypeIndex].Instance<Node2D>();
         AddChild(weed);
         weed.GlobalPosition = spawnNode.GlobalPosition;
 

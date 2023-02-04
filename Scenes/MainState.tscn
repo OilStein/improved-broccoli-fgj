@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/MainState.cs" type="Script" id=1]
 [ext_resource path="res://Art/Ground.png" type="Texture" id=2]
@@ -6,7 +6,9 @@
 [ext_resource path="res://Scenes/Beetroot.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Mob.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/WeedSpawner.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/DebugHUD.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Weed.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Weed2.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/DebugHUD.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Art/SkyNight.png" type="Texture" id=10]
 
 [sub_resource type="SpriteFrames" id=1]
@@ -58,6 +60,13 @@ autostart = true
 wait_time = 0.5
 
 [node name="WeedSpawner" parent="." instance=ExtResource( 6 )]
+WeedInstanceScene = [ ExtResource( 7 ), ExtResource( 8 ) ]
+
+[node name="Point3" type="Node2D" parent="WeedSpawner/SpawnPoints" index="2"]
+position = Vector2( 269, 600 )
+
+[node name="Point4" type="Node2D" parent="WeedSpawner/SpawnPoints" index="3"]
+position = Vector2( 641, 598 )
 
 [node name="MobSpawnCircle" type="Position2D" parent="."]
 position = Vector2( 369, 2152 )
@@ -65,7 +74,7 @@ __meta__ = {
 "_gizmo_extents_": 450.0
 }
 
-[node name="DebugHUD" parent="." instance=ExtResource( 8 )]
+[node name="DebugHUD" parent="." instance=ExtResource( 9 )]
 
 [node name="Beetroot" parent="." instance=ExtResource( 4 )]
 position = Vector2( 368, 1353 )
@@ -74,4 +83,5 @@ position = Vector2( 368, 1353 )
 [connection signal="timeout" from="TransitionToDayTimer" to="." method="OnTransitionToDayTimerTimeout"]
 [connection signal="timeout" from="DayNightCycleTimer" to="." method="OnDayNightCycleTimerTimeout"]
 [connection signal="timeout" from="MobSpawnerTimer" to="." method="OnMobSpawnerTimerTimeout"]
-[connection signal="SwitchDayNightPressed" from="DebugHUD" to="." method="OnDebugHUDSwitchDayNightPressed"]
+
+[editable path="WeedSpawner"]
