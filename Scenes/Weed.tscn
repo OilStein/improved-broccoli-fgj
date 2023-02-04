@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Weed.cs" type="Script" id=1]
 [ext_resource path="res://Art/Weed1.png" type="Texture" id=2]
 [ext_resource path="res://Animations/WeedSpawn.tres" type="Animation" id=3]
+[ext_resource path="res://Animations/WeedDeath.tres" type="Animation" id=4]
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 81.5, 135 )
@@ -83,4 +84,13 @@ color_ramp = SubResource( 4 )
 [node name="SpriteAnimator" type="AnimationPlayer" parent="."]
 root_node = NodePath("../SpriteRoot")
 anims/RESET = SubResource( 5 )
+anims/WeedDeath = ExtResource( 4 )
 anims/WeedSpawn = ExtResource( 3 )
+
+[node name="DeathAnimationTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="DeathTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true

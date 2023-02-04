@@ -6,16 +6,12 @@ public class Weed : Area2D
 	[Signal]
 	public delegate void Killed();
 
+	private Sprite sprite => GetNode<Sprite>("SpriteRoot/Sprite");
 	private CPUParticles2D particles => GetNode<CPUParticles2D>("DeathEffect");
 
 	public override void _Ready()
 	{
-		GetNode<AnimationPlayer>("SpriteAnimator").Play("WeedSpawn");
-	}
-
-	public override void _Process(float delta)
-	{
-		
+		GetNode<AnimationPlayer>("SpriteAnimator").Play("WeedSpawn", 0);
 	}
 
 	public override void _InputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
@@ -30,16 +26,27 @@ public class Weed : Area2D
 		}
 	}
 
+	public void OnDeathAnimationTimeout()
+	{
+		sprite.Hide();
+		particles.Emitting = true;
+		var deathTimer = GetNode<Timer>("DeathTimer");
+		deathTimer.Connect("timeout", this, "OnDeathParticleTimeout");
+		deathTimer.Start();
+	}
+
+	public void OnDeathParticleTimeout()
+	{
+		QueueFree();
+	}
+
 	private void Die()
 	{
-		var particles = this.particles;
-		var globalPos = particles.GlobalPosition;
-		RemoveChild(particles);
-		GetParent().AddChild(particles);
-		particles.GlobalPosition = globalPos;
-		particles.Emitting = true;
-
 		EmitSignal(nameof(Killed));
-		QueueFree();
+
+		GetNode<AnimationPlayer>("SpriteAnimator").Play("WeedDeath");
+		var deathAnimTimer = GetNode<Timer>("DeathAnimationTimer");
+		deathAnimTimer.Connect("timeout", this, "OnDeathAnimationTimeout");
+		deathAnimTimer.Start();
 	}
 }
