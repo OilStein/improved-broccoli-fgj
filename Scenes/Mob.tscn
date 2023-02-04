@@ -24,5 +24,23 @@ playing = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
 
+[node name="DirectionChangeTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+autostart = true
+
+[node name="EatingTimer" type="Timer" parent="."]
+wait_time = 0.3
+
+[node name="SplatTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="FadeoutTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="area_entered" from="." to="." method="OnAreaEntered"]
 [connection signal="input_event" from="." to="." method="OnInputEvent"]
+[connection signal="timeout" from="DirectionChangeTimer" to="." method="OnDirectionChangeTimerTimeout"]
+[connection signal="timeout" from="EatingTimer" to="." method="OnEatingTimerTimeout"]
+[connection signal="timeout" from="SplatTimer" to="." method="OnSplatTimerTimeout"]
+[connection signal="timeout" from="FadeoutTimer" to="." method="OnFadeoutTimerTimeout"]

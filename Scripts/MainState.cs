@@ -42,11 +42,10 @@ public class MainState : Node
 	
 	private void ClearOutMobs()
 	{
-		// TODO: Kill all mobs
 		// Note that for calling Godot-provided methods with strings,
 		// we have to use the original Godot snake_case name.
-		GetTree().CallGroup("mobs", "queue_free");
-		GD.Print("Cleared out mobs");
+		GetTree().CallGroup("mobs", "FadeOut");
+		GD.Print("Fading out all mobs");
 	}
 	
 	private void StartTransitionToNight()
@@ -97,6 +96,7 @@ public class MainState : Node
 		}
 	}
 	
+	// Called when a mob should spawn
 	private void OnMobSpawnerTimerTimeout()
 	{
 		// TODO: Spawn in randomized locations and give random pathing
@@ -121,6 +121,3 @@ public class MainState : Node
 	{
 	}
 }
-
-
-
