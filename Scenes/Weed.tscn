@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/Weed.cs" type="Script" id=1]
 [ext_resource path="res://Art/Weed1.png" type="Texture" id=2]
 [ext_resource path="res://Animations/WeedSpawn.tres" type="Animation" id=3]
 [ext_resource path="res://Animations/WeedDeath.tres" type="Animation" id=4]
+[ext_resource path="res://Art/LeafParticle1.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 81.5, 135 )
@@ -72,13 +73,15 @@ rotation = -1.5708
 
 [node name="DeathEffect" type="CPUParticles2D" parent="."]
 emitting = false
-lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
+texture = ExtResource( 5 )
 direction = Vector2( 0, -1 )
-initial_velocity = 100.0
+gravity = Vector2( 0, 300 )
+initial_velocity = 400.0
 initial_velocity_random = 0.5
-scale_amount = 5.0
+angular_velocity = 360.0
+angular_velocity_random = 1.0
 color_ramp = SubResource( 4 )
 
 [node name="SpriteAnimator" type="AnimationPlayer" parent="."]
