@@ -43,6 +43,11 @@ public class Mob : Area2D
 		//}
 	}
 	
+	public void StopMoving()
+	{
+		moving = false;
+	}
+	
 	// Called on physics update.
 	public override void _PhysicsProcess(float delta)
 	{

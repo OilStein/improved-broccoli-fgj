@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scripts/MainState.cs" type="Script" id=1]
+[ext_resource path="res://Art/Ground.png" type="Texture" id=2]
+[ext_resource path="res://Art/Sky.png" type="Texture" id=3]
+[ext_resource path="res://Art/Beetroot.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/Mob.tscn" type="PackedScene" id=5]
+
+[node name="MainState" type="Node"]
+script = ExtResource( 1 )
+mobScene = ExtResource( 5 )
+
+[node name="CameraTarget" type="Node2D" parent="."]
+
+[node name="Camera" type="Camera2D" parent="CameraTarget"]
+anchor_mode = 0
+current = true
+smoothing_enabled = true
+smoothing_speed = 3.0
+
+[node name="Beetroot" type="Node2D" parent="."]
+position = Vector2( 360, 500 )
+z_index = 5
+
+[node name="Sprite" type="Sprite" parent="Beetroot"]
+texture = ExtResource( 4 )
+
+[node name="SpriteGround" type="Sprite" parent="."]
+position = Vector2( 0, 600 )
+z_index = 10
+texture = ExtResource( 2 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 0, 740, 740 )
+
+[node name="SpriteSky" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+centered = false
+offset = Vector2( 0, -300 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 740, 900 )
+
+[node name="TransitionToNightTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="TransitionToDayTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="DayNightCycleTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="MobSpawnerTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="timeout" from="TransitionToNightTimer" to="." method="OnTransitionToNightTimerTimeout"]
+[connection signal="timeout" from="TransitionToDayTimer" to="." method="OnTransitionToDayTimerTimeout"]
+[connection signal="timeout" from="DayNightCycleTimer" to="." method="OnDayNightCycleTimerTimeout"]
+[connection signal="timeout" from="MobSpawnerTimer" to="." method="OnMobSpawnerTimerTimeout"]
