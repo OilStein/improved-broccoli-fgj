@@ -45,14 +45,7 @@ public class Weed : Area2D
 
 	public override void _InputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
 	{
-		if (@event is InputEventScreenTouch)
-		{
-			var touchEvent = @event as InputEventScreenTouch;
-			if (touchEvent.Pressed)
-			{
-				Grab(touchEvent.Position - Position);
-			}
-		}
+		OnInputEvent(viewport, @event, shapeIdx, true);
 	}
 
 	// Receives input events from both this node and parent TouchInput node
@@ -60,10 +53,18 @@ public class Weed : Area2D
 	// received from parent node
 	public void OnInputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
 	{
+		OnInputEvent(viewport, @event, shapeIdx, false);
+	}
+	public void OnInputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx, bool allowGrab)
+	{
 		if (@event is InputEventScreenTouch)
 		{
 			var touchEvent = @event as InputEventScreenTouch;
-			if (!touchEvent.Pressed)
+			if (touchEvent.Pressed && allowGrab)
+			{
+				Grab(touchEvent.Position - Position);
+			}
+			else if (!touchEvent.Pressed)
 			{
 				Release();
 			}
