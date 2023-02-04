@@ -9,12 +9,14 @@ public class MainState : Node
 	public PackedScene mobScene;
 #pragma warning restore 649
 	
-	private Vector2 nightCameraPosition = new Vector2(0, 300);
+	private Vector2 nightCameraPosition = new Vector2(0, 768);
 	private Vector2 dayCameraPosition = new Vector2(0, 0);
 	
 	private bool isNight = false;
 	private bool isTransitioning = false;
 	private bool isSpawningMobs = false;
+	// 1 during day, 0 during night, interpolated while transitioning.
+	private float transitioningRatio = 1.0f;
 	
 	public bool IsNight
 	{
@@ -24,6 +26,19 @@ public class MainState : Node
 	public bool IsTransitioning
 	{
 		get => isTransitioning;
+	}
+	
+	private void SetBeetrootFace(bool nighty)
+	{
+		var beetroot  = GetNode<Node2D>("Beetroot");
+		var face = beetroot.GetNode<AnimatedSprite>("SpriteFace");
+		face.Frame = (nighty ? 1 : 0);
+	}
+	
+	private void SetSkyBackground(bool nighty)
+	{
+		var sky = GetNode<AnimatedSprite>("SpriteSky");
+		sky.Frame = (nighty ? 1 : 0);
 	}
 	
 	private void StartMobSpawning()
@@ -52,6 +67,8 @@ public class MainState : Node
 	{
 		isNight = true;
 		isTransitioning = true;
+		// Update sky
+		SetSkyBackground(isNight);
 		// Update the camera target
 		GetNode<Node2D>("CameraTarget").Position = nightCameraPosition;
 		// Start the transition timer which does the state switching
@@ -62,6 +79,8 @@ public class MainState : Node
 	{
 		isNight = false;
 		isTransitioning = true;
+		// Update sky
+		SetSkyBackground(isNight);
 		StopMobSpawning();
 		// Update the camera target
 		GetNode<Node2D>("CameraTarget").Position = dayCameraPosition;
@@ -69,33 +88,47 @@ public class MainState : Node
 		GetNode<Timer>("TransitionToDayTimer").Start();
 	}
 	
+	// Called when the transition to night is complete
 	private void OnTransitionToNightTimerTimeout()
 	{
 		isTransitioning = false;
+		// Update the Beetroot face to night mode
+		SetBeetrootFace(true);
+		// Start mob spawning and stop weed spawning
 		StartMobSpawning();
 		GetNode<WeedSpawner>("WeedSpawner").Stop();
 		// Restart the cycle timer
 		GetNode<Timer>("DayNightCycleTimer").Start();
 	}
 	
+	// Called a when the transition to day is complete
 	private void OnTransitionToDayTimerTimeout()
 	{
 		isTransitioning = false;
-		// Mobs are no longer needed, remove them
+		// Update the Beetroot face to day mode
+		SetBeetrootFace(false);
+		// Mobs are no longer needed, remove them. Start weed spawning.
 		ClearOutMobs();
 		GetNode<WeedSpawner>("WeedSpawner").Start();
 		// Restart the cycle timer
 		GetNode<Timer>("DayNightCycleTimer").Start();
 	}
 	
-	private void OnDayNightCycleTimerTimeout()
+	private void SwitchDayNight()
 	{
 		// Start transitioning from night to day or vice versa.
-		if (isNight) {
-			StartTransitionToDay();
-		} else {
-			StartTransitionToNight();
+		if (!isTransitioning) {
+			if (isNight) {
+				StartTransitionToDay();
+			} else {
+				StartTransitionToNight();
+			}
 		}
+	}
+	
+	private void OnDayNightCycleTimerTimeout()
+	{
+		SwitchDayNight();
 	}
 	
 	// Called when a mob should spawn
@@ -118,14 +151,56 @@ public class MainState : Node
 		GD.Print("Created new mob");
 	}
 
+	private void OnDebugHUDSwitchDayNightPressed()
+	{
+		SwitchDayNight();
+	}
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		
 	}
+	
+	private void UpdateDebugHUD()
+	{
+		var timer = GetNode<Timer>("DayNightCycleTimer");
+		float remaining = 0.0f;
+		if (!timer.IsStopped()) {
+			remaining = timer.TimeLeft;
+		}
+		var hud = GetNode<DebugHUD>("DebugHUD");
+		hud.UpdateTime(remaining);
+		hud.UpdateTransition(transitioningRatio);
+	}
+	
+	private void UpdateTransitioning()
+	{
+		if (isTransitioning) {
+			Timer timer = null;
+			if (isNight) {
+				timer = GetNode<Timer>("TransitionToNightTimer");
+				transitioningRatio = timer.TimeLeft / timer.WaitTime;
+			} else {
+				timer = GetNode<Timer>("TransitionToDayTimer");
+				transitioningRatio = 1.0f - timer.TimeLeft / timer.WaitTime;
+			}
+		} else {
+			transitioningRatio = (isNight ? 0.0f : 1.0f);
+		}
+		
+		// Hide the ground sprite during night
+		var spriteGround = GetNode<Sprite>("SpriteGround");
+		// Set sprite alpha
+		var color = spriteGround.Modulate;
+		color = new Color(color.r, color.g, color.b, transitioningRatio);
+		spriteGround.Modulate = color;
+	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(float delta)
 	{
+		UpdateDebugHUD();
+		UpdateTransitioning();
 	}
 }

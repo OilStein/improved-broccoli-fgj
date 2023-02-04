@@ -160,17 +160,10 @@ public class Mob : Area2D
 	// Called when the mob has faded out
 	private void OnFadeoutTimerTimeout()
 	{
+		isFading = false;
 		QueueFree();
 	}
 	
-	// Set the mob direction
-	private void SetDirection(Vector2 direction) {
-		currentDirection = direction;
-		// Update the collision shape
-		// Maybe this needs to be deferred?
-		GetNode<CollisionShape2D>("CollisionShape2D").Rotation = direction.AngleTo(Vector2.Up);
-	}
-
 	// Called on physics update.
 	public override void _PhysicsProcess(float delta)
 	{
@@ -184,7 +177,9 @@ public class Mob : Area2D
 			// Decrease the angle delta
 			angleDelta *= Mathf.Exp(-rotateSpeed * delta);
 			// Rotate current direction towards desired
-			SetDirection(currentDirection.Rotated(-angleDelta));
+			// BUG: Rotating the collision shape here results in a crash
+			// when the objects are freed.
+			currentDirection = currentDirection.Rotated(-angleDelta);
 			// Move towards the desired direction
 			Vector2 moveDelta = currentDirection.LimitLength(CrawlSpeed * delta);
 			//Vector2 moveDelta = toTarget.LimitLength(CrawlSpeed * delta);
@@ -197,12 +192,16 @@ public class Mob : Area2D
 	{
 		if (isFading) {
 			var timer = GetNode<Timer>("FadeoutTimer");
-			fadeRatio = timer.TimeLeft / timer.WaitTime;
-			// Set sprite alpha
-			var sprite = GetNode<AnimatedSprite>("AnimatedSprite");
-			var color = sprite.Modulate;
-			color = new Color(color.r, color.g, color.b, fadeRatio);
-			sprite.Modulate = color;
+			if (timer != null) {
+				fadeRatio = timer.TimeLeft / timer.WaitTime;
+				// Set sprite alpha
+				var sprite = GetNode<AnimatedSprite>("AnimatedSprite");
+				if (sprite != null) {
+					var color = sprite.Modulate;
+					color = new Color(color.r, color.g, color.b, fadeRatio);
+					sprite.Modulate = color;
+				}
+			}
 		}
 	}
 }

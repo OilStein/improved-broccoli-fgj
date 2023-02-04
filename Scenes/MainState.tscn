@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scripts/MainState.cs" type="Script" id=1]
 [ext_resource path="res://Art/Ground.png" type="Texture" id=2]
@@ -7,6 +7,26 @@
 [ext_resource path="res://Scenes/Mob.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/WeedSpawner.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/TouchInput.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/DebugHUD.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Art/FaceDay.png" type="Texture" id=9]
+[ext_resource path="res://Art/SkyNight.png" type="Texture" id=10]
+[ext_resource path="res://Art/FaceNight.png" type="Texture" id=11]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 9 ), ExtResource( 11 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="MainState" type="Node"]
 script = ExtResource( 1 )
@@ -22,27 +42,17 @@ current = true
 smoothing_enabled = true
 smoothing_speed = 3.0
 
-[node name="Beetroot" type="Node2D" parent="."]
-position = Vector2( 360, 500 )
-z_index = 5
-
-[node name="Sprite" type="Sprite" parent="Beetroot"]
-texture = ExtResource( 4 )
-
 [node name="SpriteGround" type="Sprite" parent="."]
-position = Vector2( 0, 600 )
+position = Vector2( 0, 1048 )
 z_index = 10
 texture = ExtResource( 2 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 0, 0, 740, 740 )
 
-[node name="SpriteSky" type="Sprite" parent="."]
-texture = ExtResource( 3 )
+[node name="SpriteSky" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
 centered = false
-offset = Vector2( 0, -300 )
-region_enabled = true
-region_rect = Rect2( 0, 0, 740, 900 )
 
 [node name="TransitionToNightTimer" type="Timer" parent="."]
 wait_time = 1.5
@@ -53,7 +63,7 @@ wait_time = 1.5
 one_shot = true
 
 [node name="DayNightCycleTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 45.0
 one_shot = true
 autostart = true
 
@@ -63,13 +73,27 @@ wait_time = 0.5
 [node name="WeedSpawner" parent="." instance=ExtResource( 6 )]
 
 [node name="MobSpawnCircle" type="Position2D" parent="."]
-position = Vector2( 370, 1100 )
+position = Vector2( 369, 2152 )
 __meta__ = {
 "_gizmo_extents_": 450.0
 }
 
+[node name="DebugHUD" parent="." instance=ExtResource( 8 )]
+
+[node name="Beetroot" type="Node2D" parent="."]
+position = Vector2( 370, 1100 )
+z_index = 5
+
+[node name="SpriteRoot" type="Sprite" parent="Beetroot"]
+texture = ExtResource( 4 )
+offset = Vector2( 0, 260 )
+
+[node name="SpriteFace" type="AnimatedSprite" parent="Beetroot"]
+frames = SubResource( 2 )
+offset = Vector2( 0, -30 )
 
 [connection signal="timeout" from="TransitionToNightTimer" to="." method="OnTransitionToNightTimerTimeout"]
 [connection signal="timeout" from="TransitionToDayTimer" to="." method="OnTransitionToDayTimerTimeout"]
 [connection signal="timeout" from="DayNightCycleTimer" to="." method="OnDayNightCycleTimerTimeout"]
 [connection signal="timeout" from="MobSpawnerTimer" to="." method="OnMobSpawnerTimerTimeout"]
+[connection signal="SwitchDayNightPressed" from="DebugHUD" to="." method="OnDebugHUDSwitchDayNightPressed"]
