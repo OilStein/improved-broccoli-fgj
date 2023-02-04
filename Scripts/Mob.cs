@@ -118,16 +118,16 @@ public class Mob : Area2D
 	// Stops the mob's current animation from playing
 	private void StopAnimation()
 	{
-		GetNode<AnimatedSprite>("AnimatedSprite").Playing = false;
+		//GetNode<AnimatedSprite>("AnimatedSprite").Playing = false;
 	}
 	
 	// Called periodically when the mob wants to change direction
 	private void OnDirectionChangeTimerTimeout()
 	{
 		// Choose a new direction offset
-		targetDesiredAngleOffset = GD.Deg2Rad(GD.RandRange(-maxDesiredAngleOffsetDegrees, maxDesiredAngleOffsetDegrees));
+		targetDesiredAngleOffset = Mathf.Deg2Rad((float)GD.RandRange(-maxDesiredAngleOffsetDegrees, maxDesiredAngleOffsetDegrees));
 		// Reset this timer with a random interval
-		GetNode<Timer>("DirectionChangeTimer").Start(GD.RandRange(minDirectionChangeInterval, maxDirectionChangeInterval));
+		GetNode<Timer>("DirectionChangeTimer").Start((float)GD.RandRange(minDirectionChangeInterval, maxDirectionChangeInterval));
 	}
 
 	// Called periodically when the mob is eating the Beetroot
@@ -154,7 +154,7 @@ public class Mob : Area2D
 		currentDirection = direction;
 		// Update the collision shape
 		// Maybe this needs to be deferred?
-		GetNode<CollisionShape2D>("CollisionShape2D").Rotation = direction.AngleTo(Vector2.UP);
+		GetNode<CollisionShape2D>("CollisionShape2D").Rotation = direction.AngleTo(Vector2.Up);
 	}
 
 	// Called on physics update.
@@ -172,8 +172,8 @@ public class Mob : Area2D
 			// Rotate current direction towards desired
 			SetDirection(currentDirection.Rotated(angleDelta));
 			// Move towards the desired direction
-			Vector2 moveDelta = currentDirection.LimitLength(CrawlSpeed * delta);
-			//Vector2 moveDelta = toTarget.LimitLength(CrawlSpeed * delta);
+			//Vector2 moveDelta = currentDirection.LimitLength(CrawlSpeed * delta);
+			Vector2 moveDelta = toTarget.LimitLength(CrawlSpeed * delta);
 			Position += moveDelta;
 		}
 	}
@@ -183,10 +183,12 @@ public class Mob : Area2D
 	{
 		if (isFading) {
 			var timer = GetNode<Timer>("FadeoutTimer");
-			fadeRatio = 1.0f - timer.TimeLeft / timer.WaitTime;
+			fadeRatio = timer.TimeLeft / timer.WaitTime;
 			// Set sprite alpha
 			var sprite = GetNode<AnimatedSprite>("AnimatedSprite");
-			sprite.Modulate.A = fadeRatio;
+			var color = sprite.Modulate;
+			color = new Color(color.r, color.g, color.b, fadeRatio);
+			sprite.Modulate = color;
 		}
 	}
 }

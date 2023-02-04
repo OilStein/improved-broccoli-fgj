@@ -56,6 +56,12 @@ autostart = true
 [node name="MobSpawnerTimer" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="MobSpawnCircle" type="Position2D" parent="."]
+position = Vector2( 370, 1100 )
+__meta__ = {
+"_gizmo_extents_": 450.0
+}
+
 [connection signal="timeout" from="TransitionToNightTimer" to="." method="OnTransitionToNightTimerTimeout"]
 [connection signal="timeout" from="TransitionToDayTimer" to="." method="OnTransitionToDayTimerTimeout"]
 [connection signal="timeout" from="DayNightCycleTimer" to="." method="OnDayNightCycleTimerTimeout"]
