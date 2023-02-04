@@ -1,23 +1,33 @@
 using Godot;
 using System;
 
-public class Global : Node
+namespace Beatroot
 {
-    public int Score { get; private set; }
-
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
+    /// <summary>
+    /// Global holds data needed to be carried over scenes.
+    /// This script is autoloaded and can be accessed with GetNode<Global>("/root/Global")
+    /// </summary>
+    public class Global : Node
     {
-        Init();
-    }
+        public int Score { get; private set; }
 
-    public void Init()
-    {
-        Score = 0;
-    }
+        [Signal] public delegate void ScoreChanged(int score);
 
-    public void AddScore(int score)
-    {
-        Score += score;
+        public override void _Ready()
+        {
+            Init();
+        }
+
+        public void Init()
+        {
+            Score = 0;
+        }
+
+        public void AddScore(int score)
+        {
+            Score += score;
+
+            EmitSignal("ScoreChanged", Score);
+        }
     }
 }
