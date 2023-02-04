@@ -73,7 +73,6 @@ public class MainState : Node
 		GetNode<Node2D>("CameraTarget").Position = nightCameraPosition;
 		// Start the transition timer which does the state switching
 		GetNode<Timer>("TransitionToNightTimer").Start();
-        EmitSignal("TransitionToNight");
     }
 	
 	private void StartTransitionToDay() 
@@ -87,7 +86,6 @@ public class MainState : Node
 		GetNode<Node2D>("CameraTarget").Position = dayCameraPosition;
 		// Start the transition timer which does the state switching
 		GetNode<Timer>("TransitionToDayTimer").Start();
-		EmitSignal("TransitionToDay");
 	}
 	
 	// Called when the transition to night is complete
