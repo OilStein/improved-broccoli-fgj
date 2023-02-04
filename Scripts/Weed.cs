@@ -20,7 +20,9 @@ public class Weed : Area2D
 
 	private bool dragging = false;
 
+	private Vector2 touchPosition;
 	private Vector2 relativeClickPosition;
+
 	private Vector2 stretchPosition;
 
 	private float targetRotation;
@@ -43,21 +45,49 @@ public class Weed : Area2D
 
 	public override void _InputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
 	{
-		if (@event.IsActionPressed(mouseClickAction))
+		if (@event is InputEventScreenTouch)
 		{
-			Grab();
+			var touchEvent = @event as InputEventScreenTouch;
+			if (touchEvent.Pressed)
+			{
+				Grab(touchEvent.Position - Position);
+			}
 		}
 	}
 
-	private void Grab()
+	// Receives input events from both this node and parent TouchInput node
+	// This input node may not receive the touch release event, so that needs to be
+	// received from parent node
+	public void OnInputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
 	{
+		if (@event is InputEventScreenTouch)
+		{
+			var touchEvent = @event as InputEventScreenTouch;
+			if (!touchEvent.Pressed)
+			{
+				Release();
+			}
+		}
+		else if (@event is InputEventScreenDrag)
+		{
+			var dragEvent = @event as InputEventScreenDrag;
+			touchPosition = dragEvent.Position - Position;
+			GD.Print("Drag " + touchPosition);
+		}
+	}
+
+	private void Grab(Vector2 position)
+	{
+		GD.Print("Grab " + position);
 		dragging = true;
-		relativeClickPosition = GetLocalMousePosition();
+		relativeClickPosition = position;
+		touchPosition = Vector2.Zero;
 		stretchPosition = Vector2.Zero;
 	}
 
 	private void Release()
 	{
+		GD.Print("Release");
 		dragging = false;
 		var startPos = startPosition;
 		targetRotation = startPos.Rotation;
@@ -81,12 +111,6 @@ public class Weed : Area2D
 	{
 		if (!dragging)
 		{
-			return;
-		}
-
-		if (Input.IsActionJustReleased(mouseClickAction))
-		{
-			Release();
 			return;
 		}
 
