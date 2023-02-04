@@ -62,11 +62,17 @@ wait_time = 0.5
 [node name="WeedSpawner" parent="." instance=ExtResource( 6 )]
 WeedInstanceScene = [ ExtResource( 7 ), ExtResource( 8 ) ]
 
+[node name="Point1" parent="WeedSpawner/SpawnPoints" index="0"]
+position = Vector2( 47, 1110 )
+
+[node name="Point2" parent="WeedSpawner/SpawnPoints" index="1"]
+position = Vector2( 559, 1080 )
+
 [node name="Point3" type="Node2D" parent="WeedSpawner/SpawnPoints" index="2"]
-position = Vector2( 269, 600 )
+position = Vector2( 157, 1087 )
 
 [node name="Point4" type="Node2D" parent="WeedSpawner/SpawnPoints" index="3"]
-position = Vector2( 641, 598 )
+position = Vector2( 662, 1096 )
 
 [node name="MobSpawnCircle" type="Position2D" parent="."]
 position = Vector2( 369, 2152 )
