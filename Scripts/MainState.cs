@@ -42,11 +42,10 @@ public class MainState : Node
 	
 	private void ClearOutMobs()
 	{
-		// TODO: Kill all mobs
 		// Note that for calling Godot-provided methods with strings,
 		// we have to use the original Godot snake_case name.
-		GetTree().CallGroup("mobs", "queue_free");
-		GD.Print("Cleared out mobs");
+		GetTree().CallGroup("mobs", "Fadeout");
+		GD.Print("Fading out all mobs");
 	}
 	
 	private void StartTransitionToNight()
@@ -99,15 +98,22 @@ public class MainState : Node
 		}
 	}
 	
+	// Called when a mob should spawn
 	private void OnMobSpawnerTimerTimeout()
 	{
-		// TODO: Spawn in randomized locations and give random pathing
+		// Get a random position on the lower half of the mob spawn circle
+		var spawnCircle = GetNode<Position2D>("MobSpawnCircle");
+		float angle = (float)GD.RandRange(0, Mathf.Pi);
+		var mobSpawnPosition = spawnCircle.Position + new Vector2(
+			Mathf.Cos(angle) * spawnCircle.GizmoExtents,
+			Mathf.Sin(angle) * spawnCircle.GizmoExtents
+		);
 		var beetroot = GetNode<Node2D>("Beetroot");
 		// Create a new mob
-		var mobSpawnLocation = beetroot.Position + new Vector2(0, 400);
 		var mob = (Mob)mobScene.Instance();
 		AddChild(mob);
-		mob.Position = beetroot.Position + new Vector2(0, 400);
+		mob.CrawlSpeed = 50.0f;
+		mob.Position = mobSpawnPosition;
 		mob.TargetPosition = beetroot.Position;
 		GD.Print("Created new mob");
 	}
@@ -123,6 +129,3 @@ public class MainState : Node
 	{
 	}
 }
-
-
-
