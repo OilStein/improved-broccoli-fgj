@@ -10,6 +10,7 @@ public class Weed : Area2D
 
 	public override void _Ready()
 	{
+		GetNode<AnimationPlayer>("SpriteAnimator").Play("WeedSpawn");
 	}
 
 	public override void _Process(float delta)
