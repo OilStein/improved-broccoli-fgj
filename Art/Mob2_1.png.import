@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Beetroot3.png-c764f6ee64db43ef7f9bbad76fdf0fff.stex"
+path="res://.import/Mob2_1.png-9a85924e447bada549a92b1fa784ea3c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Beetroot3.png"
-dest_files=[ "res://.import/Beetroot3.png-c764f6ee64db43ef7f9bbad76fdf0fff.stex" ]
+source_file="res://Art/Mob2_1.png"
+dest_files=[ "res://.import/Mob2_1.png-9a85924e447bada549a92b1fa784ea3c.stex" ]
 
 [params]
 
