@@ -17,3 +17,6 @@ mono_crash.*.json
 # VS
 .vscode/
 .vs/
+
+# APK export
+.export/
