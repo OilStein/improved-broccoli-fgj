@@ -11,7 +11,13 @@ config_version=4
 [application]
 
 config/name="fgj23"
+run/main_scene="res://Scenes/MainState.tscn"
 config/icon="res://icon.png"
+
+[display]
+
+window/size/width=740
+window/size/height=1280
 
 [gui]
 
