@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scripts/Weed.cs" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 32, 32 )
+
+[sub_resource type="Gradient" id=1]
+
+[sub_resource type="GradientTexture2D" id=2]
+gradient = SubResource( 1 )
+
+[node name="Weed" type="Area2D"]
+position = Vector2( 125, 127 )
+script = ExtResource( 1 )
+StretchDistance = 200.0
+BreakPointDistance = 400.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -32 )
+shape = SubResource( 3 )
+
+[node name="SpriteRoot" type="Node2D" parent="."]
+rotation = -1.5708
+
+[node name="Sprite" type="Sprite" parent="SpriteRoot"]
+position = Vector2( 32, 0 )
+texture = SubResource( 2 )
+
+[node name="StartPosition" type="Node2D" parent="."]
+rotation = -1.5708
