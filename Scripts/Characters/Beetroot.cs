@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Drawing;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Beatroot
 {
@@ -15,7 +16,11 @@ namespace Beatroot
 
         private Node2D _leafLeft;
         private Node2D _leafRight;
+        private Sprite _dayFace;
+        private Sprite _nightFace;
+
         private AnimationState _animationState;
+
         private float _timer;
         private float _rotationMultiplier = 2.5f;
         private float _animationDelay = 3;
@@ -25,8 +30,15 @@ namespace Beatroot
         {
             _leafLeft = GetNode<Node2D>("./RotateL");
             _leafRight = GetNode<Node2D>("./RotateR");
+            _dayFace = GetNode<Sprite>("./Face/Day");
+            _nightFace = GetNode<Sprite>("./Face/Night");
+
             _animationState = AnimationState.Idle;
             _timer = 0;
+
+            var mainState = GetNode<MainState>("/root/MainState");
+            mainState.Connect("TransitionToDay", this, "TransitionToDay");
+            mainState.Connect("TransitionToNight", this, "TransitionToNight");
         }
 
         public override void _Process(float delta)
@@ -59,8 +71,18 @@ namespace Beatroot
                     _timer = 0;
                 }
             }
+        }
 
-            
+        public void TransitionToDay()
+        {
+            _dayFace.Visible = true;
+            _nightFace.Visible = false;
+        }
+
+        public void TransitionToNight()
+        {
+            _dayFace.Visible = false;
+            _nightFace.Visible = true;
         }
     }
 }
