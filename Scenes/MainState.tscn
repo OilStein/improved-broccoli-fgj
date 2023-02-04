@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 [gd_scene load_steps=14 format=2]
+=======
+[gd_scene load_steps=7 format=2]
+>>>>>>> main
 
 [ext_resource path="res://Scripts/MainState.cs" type="Script" id=1]
 [ext_resource path="res://Art/Ground.png" type="Texture" id=2]
@@ -6,6 +10,7 @@
 [ext_resource path="res://Art/Beetroot.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Mob.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/WeedSpawner.tscn" type="PackedScene" id=6]
+<<<<<<< HEAD
 [ext_resource path="res://Scenes/TouchInput.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/DebugHUD.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Art/FaceDay.png" type="Texture" id=9]
@@ -27,12 +32,12 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 } ]
+=======
+>>>>>>> main
 
 [node name="MainState" type="Node"]
 script = ExtResource( 1 )
 mobScene = ExtResource( 5 )
-
-[node name="TouchInput" parent="." instance=ExtResource( 7 )]
 
 [node name="CameraTarget" type="Node2D" parent="."]
 
