@@ -13,7 +13,7 @@ public class Weed : Area2D
 	[Export]
 	public float DownwardDragLimit = 5;
 	[Export]
-	public float StretchScaleModifier = 0.01f;
+	public Vector2 StretchScaleModifier = new Vector2(0.01f, -0.01f);
 	public float MinDragThreshold = 0.01f; // Drag length below this is ignored
 	
 	private static readonly string mouseClickAction = "mouse_left_click";
@@ -23,10 +23,61 @@ public class Weed : Area2D
 	private Vector2 relativeClickPosition;
 	private Vector2 stretchPosition;
 
+	private float targetRotation;
+	private Vector2 targetScale;
+
 	private Node2D startPosition => GetNode<Node2D>("StartPosition");
 	private Node2D sprite => GetNode<Node2D>("SpriteRoot");
+	private CPUParticles2D particles => GetNode<CPUParticles2D>("DeathEffect");
+
+	public override void _Ready()
+	{
+		Release();
+	}
 
 	public override void _Process(float delta)
+	{
+		ProcessDragging();
+		ProcessSpritePosition();
+	}
+
+	public override void _InputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
+	{
+		if (@event.IsActionPressed(mouseClickAction))
+		{
+			Grab();
+		}
+	}
+
+	private void Grab()
+	{
+		dragging = true;
+		relativeClickPosition = GetLocalMousePosition();
+		stretchPosition = Vector2.Zero;
+	}
+
+	private void Release()
+	{
+		dragging = false;
+		var startPos = startPosition;
+		targetRotation = startPos.Rotation;
+		targetScale = startPos.Scale;
+	}
+
+	private void Die()
+	{
+		var particles = this.particles;
+		var globalPos = particles.GlobalPosition;
+		RemoveChild(particles);
+		GetParent().AddChild(particles);
+		particles.GlobalPosition = globalPos;
+		particles.Emitting = true;
+
+		EmitSignal(nameof(Killed));
+		QueueFree();
+	}
+
+	private void ProcessDragging()
 	{
 		if (!dragging)
 		{
@@ -51,9 +102,11 @@ public class Weed : Area2D
 		var stretchLength = Mathf.Min(dragLength, StretchDistance);
 		stretchPosition = dragDirection * stretchLength;
 
-		var sprite = this.sprite;
-		sprite.Rotation = dragDirection.Angle();
-		sprite.Scale = new Vector2(1 + stretchLength * StretchScaleModifier, 1);
+		targetRotation = dragDirection.Angle();
+		targetScale = new Vector2(
+			1 + stretchLength * StretchScaleModifier.x,
+			1 + stretchLength * StretchScaleModifier.y
+		);
 
 		if (stretchPosition.y >= DownwardDragLimit)
 		{
@@ -63,33 +116,17 @@ public class Weed : Area2D
 
 		if (dragLength >= BreakPointDistance)
 		{
-			EmitSignal(nameof(Killed));
-			QueueFree();
+			Die();
 		}
 	}
 
-	public override void _InputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
+	private void ProcessSpritePosition()
 	{
-		if (@event.IsActionPressed(mouseClickAction))
-		{
-			Grab();
-		}
-	}
-
-	private void Grab()
-	{
-		dragging = true;
-		relativeClickPosition = GetLocalMousePosition();
-		stretchPosition = Vector2.Zero;
-	}
-
-	private void Release()
-	{
-		dragging = false;
-		var startPos = startPosition;
 		var sprite = this.sprite;
-		sprite.Position = startPos.Position;
-		sprite.Rotation = startPos.Rotation;
-		sprite.Scale = startPos.Scale;
+		sprite.Rotation = Mathf.LerpAngle(sprite.Rotation, targetRotation, 1f / 4f);
+		sprite.Scale = new Vector2(
+			Mathf.Lerp(sprite.Scale.x, targetScale.x, 1f / 4f),
+			Mathf.Lerp(sprite.Scale.y, targetScale.y, 1f / 4f)
+		);
 	}
 }
