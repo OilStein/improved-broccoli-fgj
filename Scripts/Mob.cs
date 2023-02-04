@@ -148,6 +148,14 @@ public class Mob : Area2D
 	{
 		QueueFree();
 	}
+	
+	// Set the mob direction
+	private void SetDirection(Vector2 direction) {
+		currentDirection = direction;
+		// Update the collision shape
+		// Maybe this needs to be deferred?
+		GetNode<CollisionShape2D>("CollisionShape2D").Rotation = direction.AngleTo(Vector2.UP);
+	}
 
 	// Called on physics update.
 	public override void _PhysicsProcess(float delta)
@@ -162,7 +170,7 @@ public class Mob : Area2D
 			// Decrease the angle delta
 			angleDelta *= Mathf.Exp(-rotateSpeed * delta);
 			// Rotate current direction towards desired
-			currentDirection = currentDirection.Rotated(angleDelta);
+			SetDirection(currentDirection.Rotated(angleDelta));
 			// Move towards the desired direction
 			Vector2 moveDelta = currentDirection.LimitLength(CrawlSpeed * delta);
 			//Vector2 moveDelta = toTarget.LimitLength(CrawlSpeed * delta);
