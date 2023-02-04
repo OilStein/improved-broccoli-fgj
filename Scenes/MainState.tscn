@@ -25,6 +25,7 @@ z_index = 5
 
 [node name="Sprite" type="Sprite" parent="Beetroot"]
 texture = ExtResource( 4 )
+offset = Vector2( 0, 480 )
 
 [node name="SpriteGround" type="Sprite" parent="."]
 position = Vector2( 0, 600 )
@@ -32,14 +33,14 @@ z_index = 10
 texture = ExtResource( 2 )
 centered = false
 region_enabled = true
-region_rect = Rect2( 0, 0, 740, 740 )
+region_rect = Rect2( 0, 0, 740, 330 )
 
 [node name="SpriteSky" type="Sprite" parent="."]
 texture = ExtResource( 3 )
 centered = false
 offset = Vector2( 0, -300 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 740, 900 )
+region_rect = Rect2( 0, 0, 740, 1280 )
 
 [node name="TransitionToNightTimer" type="Timer" parent="."]
 wait_time = 1.5
