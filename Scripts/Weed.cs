@@ -28,6 +28,7 @@ public class Weed : Area2D
 
 	private Node2D startPosition => GetNode<Node2D>("StartPosition");
 	private Node2D sprite => GetNode<Node2D>("SpriteRoot");
+	private CPUParticles2D particles => GetNode<CPUParticles2D>("DeathEffect");
 
 	public override void _Ready()
 	{
@@ -61,6 +62,19 @@ public class Weed : Area2D
 		var startPos = startPosition;
 		targetRotation = startPos.Rotation;
 		targetScale = startPos.Scale;
+	}
+
+	private void Die()
+	{
+		var particles = this.particles;
+		var globalPos = particles.GlobalPosition;
+		RemoveChild(particles);
+		GetParent().AddChild(particles);
+		particles.GlobalPosition = globalPos;
+		particles.Emitting = true;
+
+		EmitSignal(nameof(Killed));
+		QueueFree();
 	}
 
 	private void ProcessDragging()
@@ -102,8 +116,7 @@ public class Weed : Area2D
 
 		if (dragLength >= BreakPointDistance)
 		{
-			EmitSignal(nameof(Killed));
-			QueueFree();
+			Die();
 		}
 	}
 
