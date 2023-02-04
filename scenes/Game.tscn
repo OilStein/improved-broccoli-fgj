@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=2]
+
+[node name="Game" type="Node2D"]
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 720, 2540 )
+
+[node name="Camera2D" type="Camera2D" parent="Viewport"]
+anchor_mode = 0
+current = true
+process_mode = 0
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+margin_right = 720.0
+margin_bottom = 2560.0
+color = Color( 0.380392, 0.247059, 0.105882, 1 )
+
+[node name="ColorRect2" type="ColorRect" parent="Background"]
+margin_right = 720.0
+margin_bottom = 1200.0
+color = Color( 0.270588, 0.501961, 0.639216, 1 )
