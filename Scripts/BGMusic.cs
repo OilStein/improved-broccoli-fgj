@@ -19,6 +19,9 @@ public class BGMusic : Node
 		night = GetNode<AudioStreamPlayer>("Night");
 		GD.Print("BG audio script loaded");
 
+		var mainState = GetParent<MainState>();
+		mainState.Connect("DayNightCycle", this, "PlayTrack");
+
 		PlayTrack(true);
 	}
 

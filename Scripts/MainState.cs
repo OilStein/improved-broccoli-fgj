@@ -6,6 +6,9 @@ public class MainState : Node
 	[Signal]
 	public delegate void GameOver(int score);
 
+	[Signal]
+	public delegate void DayNightCycle(bool isDay);
+
 #pragma warning disable 649
 	// We assign this in the editor, so we don't need the warning about not being assigned.
 	[Export]
@@ -80,6 +83,7 @@ public class MainState : Node
 		isTransitioning = true;
 		// Update sky
 		SetSkyBackground(isNight);
+		EmitSignal("DayNightCycle", !isNight);
 		// Update the camera target
 		GetNode<Node2D>("CameraTarget").Position = nightCameraPosition;
 		// Start the transition timer which does the state switching
@@ -92,9 +96,10 @@ public class MainState : Node
 		isTransitioning = true;
 		// Update sky
 		SetSkyBackground(isNight);
-		StopMobSpawning();
-		// Update the camera target
-		GetNode<Node2D>("CameraTarget").Position = dayCameraPosition;
+        StopMobSpawning();
+        EmitSignal("DayNightCycle", !isNight);
+        // Update the camera target
+        GetNode<Node2D>("CameraTarget").Position = dayCameraPosition;
 		// Start the transition timer which does the state switching
 		GetNode<Timer>("TransitionToDayTimer").Start();
 	}
