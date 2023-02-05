@@ -10,8 +10,6 @@ public class BGMusic : Node
 	private AudioStreamPlayer day;
 	private AudioStreamPlayer night;
 
-	private bool mode = true;
-
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -21,10 +19,10 @@ public class BGMusic : Node
 		night = GetNode<AudioStreamPlayer>("Night");
 		GD.Print("BG audio script loaded");
 
-		PlayTrack();
+		PlayTrack(true);
 	}
 
-	public void PlayTrack()
+	public void PlayTrack(bool mode)
 	{
 		if (mode.Equals(true))
 		{	
@@ -42,10 +40,8 @@ public class BGMusic : Node
 	}
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
-  public override void _Process(float delta)
-  {     
-
-		Input.ActionPress("ui_down");
-
-	}
+// public override void _Process(float delta)
+//  {     
+//
+//	}
 }
