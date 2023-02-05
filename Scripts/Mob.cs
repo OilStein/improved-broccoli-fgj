@@ -14,6 +14,15 @@ public class Mob : Area2D
 	[Export]
 	public float[] ColliderHeights;
 
+	[Export]
+	public AudioStreamMP3[] BugClip;
+
+	//[Export]
+	//public AudioStreamMP3[] SlapClip;
+
+	[Export]
+	public AudioStreamMP3[] SquishClip;
+
 	private bool isMoving = true;
 	private bool isEating = false;
 	private bool isSplat = false;
@@ -31,7 +40,7 @@ public class Mob : Area2D
 	private float maxDirectionChangeInterval = 6.0f;
 	
 	private float fadeRatio = 0.0f;
-	
+
 	public bool IsMoving {
 		get => isMoving;
 		set => isMoving = value;
@@ -95,7 +104,7 @@ public class Mob : Area2D
 	// Squish the mob
 	public void Splat()
 	{
-		StopMoving();
+        StopMoving();
 		StopEating();
 		StopAnimation();
 		Input.VibrateHandheld(100);
@@ -104,11 +113,32 @@ public class Mob : Area2D
 		// TODO: Increment resources / points
 		EmitSignal("Killed");
 		// TODO: Emit particles
-		// TODO: Play splat sound
+		SplatSound();
 		isSplat = true;
 		GetNode<Timer>("SplatTimer").Start();
 	}
+
+	private void SplatSound()
+	{
+        var squishSound = GetNode<AudioStreamPlayer2D>("Squish");
+        squishSound.Stream = SquishClip[GetRand(SquishClip.Length)];
+        squishSound.Play();
+
+		if (new Random().Next(0, 100) > 80)
+		{
+            var bugSound = GetNode<AudioStreamPlayer2D>("Bug");
+            bugSound.Stream = BugClip[GetRand(BugClip.Length)];
+            bugSound.Play();
+        }
+		//var slapSound = GetNode<AudioStreamPlayer2D>("Slap");
+		//slapSound.Stream = SlapClip[GetRand(SlapClip.Length)];
+		//slapSound.Play();
+	}
 	
+	private int GetRand(int l){
+		return new Random().Next(0, l);
+	}
+
 	// Fade the mob away
 	public void Fadeout()
 	{

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Scripts/Mob.cs" type="Script" id=1]
 [ext_resource path="res://Art/Mob3_2.png" type="Texture" id=2]
@@ -39,6 +39,22 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 2, 2 ) ]
 }
+[ext_resource path="res://Audio/SFX/bug1.mp3" type="AudioStream" id=8]
+[ext_resource path="res://Audio/SFX/bug5.mp3" type="AudioStream" id=9]
+[ext_resource path="res://Audio/SFX/bug6.mp3" type="AudioStream" id=11]
+[ext_resource path="res://Audio/SFX/bug7.mp3" type="AudioStream" id=12]
+[ext_resource path="res://Audio/SFX/bug8.mp3" type="AudioStream" id=13]
+[ext_resource path="res://Audio/SFX/bug9.mp3" type="AudioStream" id=14]
+[ext_resource path="res://Audio/SFX/squish.mp3" type="AudioStream" id=17]
+[ext_resource path="res://Audio/SFX/bug12.mp3" type="AudioStream" id=18]
+[ext_resource path="res://Audio/SFX/bug13.mp3" type="AudioStream" id=19]
+[ext_resource path="res://Audio/SFX/bug2.mp3" type="AudioStream" id=23]
+[ext_resource path="res://Audio/SFX/bug3.mp3" type="AudioStream" id=24]
+[ext_resource path="res://Audio/SFX/bug4.mp3" type="AudioStream" id=25]
+[ext_resource path="res://Audio/SFX/squish2.mp3" type="AudioStream" id=26]
+[ext_resource path="res://Audio/SFX/bug14.mp3" type="AudioStream" id=28]
+[ext_resource path="res://Audio/SFX/bug10.mp3" type="AudioStream" id=29]
+[ext_resource path="res://Audio/SFX/bug11.mp3" type="AudioStream" id=30]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -71,6 +87,8 @@ z_index = 15
 script = ExtResource( 1 )
 ColliderRadiuses = PoolRealArray( 32, 40, 74 )
 ColliderHeights = PoolRealArray( 10, 10, 6 )
+BugClip = [ ExtResource( 8 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 9 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 28 ) ]
+SquishClip = [ ExtResource( 17 ), ExtResource( 26 ) ]
 
 [node name="BloodSplash" type="Sprite" parent="."]
 scale = Vector2( 1e-05, 1e-05 )
@@ -117,6 +135,12 @@ initial_velocity = 200.0
 initial_velocity_random = 0.2
 scale_amount = 2.0
 scale_amount_curve = SubResource( 5 )
+
+[node name="Bug" type="AudioStreamPlayer2D" parent="."]
+
+[node name="Slap" type="AudioStreamPlayer2D" parent="."]
+
+[node name="Squish" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="area_entered" from="." to="." method="OnAreaEntered"]
 [connection signal="input_event" from="." to="." method="OnInputEvent"]
