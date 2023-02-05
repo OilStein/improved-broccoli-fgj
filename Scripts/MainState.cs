@@ -30,6 +30,14 @@ public class MainState : Node
 	{
 		get => isTransitioning;
 	}
+
+	public void OnBeetrootHealthChange(int health, int delta)
+	{
+		if (health <= 0)
+		{
+			EmitSignal(nameof(GameOver), 0);
+		}
+	}
 	
 	private void SetBeetrootFace(bool nighty)
 	{
@@ -148,6 +156,7 @@ public class MainState : Node
 		// Create a new mob
 		var mob = (Mob)mobScene.Instance();
 		AddChild(mob);
+		ConnectMobEatingSignal(mob);
 		mob.CrawlSpeed = 50.0f;
 		mob.Position = mobSpawnPosition;
 		mob.TargetPosition = beetroot.Position;
@@ -162,7 +171,7 @@ public class MainState : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		
+		GetNode<Beatroot.Beetroot>("Beetroot").Connect("HealthChanged", this, "OnBeetrootHealthChange");
 	}
 	
 	private void UpdateDebugHUD()
@@ -198,6 +207,13 @@ public class MainState : Node
 		var color = spriteGround.Modulate;
 		color = new Color(color.r, color.g, color.b, transitioningRatio);
 		spriteGround.Modulate = color;
+	}
+
+	private void ConnectMobEatingSignal(Mob mob)
+	{
+		var beetroot = GetNode<Beatroot.Beetroot>("Beetroot");
+		mob.Connect("EatingBeetroot", beetroot, "TakeDamage");
+		GD.Print("Connect eating signal");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

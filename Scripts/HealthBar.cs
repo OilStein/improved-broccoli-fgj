@@ -5,32 +5,24 @@ namespace Beatroot
 {
 	public class HealthBar : Node
 	{
+		[Export]
+		public float MaxHealth = 100;
+
 		private ProgressBar _bar;
 
-		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
-			_bar = GetChild<ProgressBar>(0);
-			if (GetParent<BaseCharacter>() != null && GetParent<BaseCharacter>().Get("MaxHealth") != null)
-			{
-				_bar.MaxValue = (double)GetParent<BaseCharacter>().Get("MaxHealth");
-			}
+			_bar = GetNode<ProgressBar>("ProgressBar");
+			_bar.MaxValue = MaxHealth;
 		}
 
-		public override void _Process(float delta)
+		public void SetHealth(int health)
 		{
-			Update();
+			_bar.Value = health;
 		}
-
-		/// <summary>
-		/// Updates the health bar according to the parent Node<BaseCharacter>
-		/// </summary>
-		public void Update()
+		public void SetHealth(int health, int delta)
 		{
-			if (GetParent<BaseCharacter>() != null && GetParent<BaseCharacter>().Get("CurrentHealth") != null)
-			{
-				_bar.Value = (double)GetParent<BaseCharacter>().Get("CurrentHealth");
-			}
+			SetHealth(health);
 		}
 	}
 }

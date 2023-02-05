@@ -5,8 +5,14 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Beatroot
 {
-    public class Beetroot : BaseCharacter
+    public class Beetroot : Node2D
     {
+        [Signal]
+        public delegate void HealthChanged(int newHealth, int delta);
+
+        [Export]
+        public int MaxHealth = 100;
+
         enum AnimationState
         {
             Idle,
@@ -23,6 +29,8 @@ namespace Beatroot
         private float _rotationMultiplier = 2.5f;
         private float _animationDelay = 3;
 
+        private int _health;
+
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
@@ -31,6 +39,7 @@ namespace Beatroot
 
             _animationState = AnimationState.Idle;
             _timer = 0;
+            _health = MaxHealth;
         }
 
         public override void _Process(float delta)
@@ -63,6 +72,22 @@ namespace Beatroot
                     _timer = 0;
                 }
             }
+        }
+
+        public void Heal()
+        {
+            if (_health < MaxHealth)
+            {
+                _health++;
+                EmitSignal(nameof(HealthChanged), _health, 1);
+            }
+        }
+
+        public void TakeDamage()
+        {
+		    GD.Print("Recieve eating signal");
+            _health--;
+            EmitSignal(nameof(HealthChanged), _health, -1);
         }
     }
 }

@@ -3,6 +3,9 @@ using System;
 
 public class Mob : Area2D
 {
+	[Signal]
+	public delegate void EatingBeetroot();
+
 	[Export]
 	public float[] ColliderRadiuses;
 	[Export]
@@ -78,7 +81,7 @@ public class Mob : Area2D
 	private void OnAreaEntered(object area)
 	{
 		if (area is Node n) {
-			if (n.Name == "Beetroot") {
+			if (n.Name == "BeetrootEatingZone") {
 				// Colliding with the beetroot
 				StopMoving();
 				StartEating();
@@ -157,7 +160,8 @@ public class Mob : Area2D
 	// Called periodically when the mob is eating the Beetroot
 	private void OnEatingTimerTimeout()
 	{
-		// TODO: Damage the Beetroot.
+		GD.Print("Send eating signal");
+		EmitSignal(nameof(EatingBeetroot));
 		// TODO: Play hit sound
 	}
 

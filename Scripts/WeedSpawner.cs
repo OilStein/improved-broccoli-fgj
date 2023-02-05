@@ -51,6 +51,21 @@ public class WeedSpawner : Node
         AddChild(weed);
         weed.GlobalPosition = spawnNode.GlobalPosition;
 
+        if (weed is Weed)
+        {
+            ConnectWeedKillSignal((Weed)weed);
+        }
+        else
+        {
+            ConnectWeedKillSignal(weed.GetNode<Weed>("Weed"));
+        }
+
         GD.Print("Spawned a weed at: " + weed.Position);
     }
+
+	private void ConnectWeedKillSignal(Weed weed)
+	{
+		var beetroot = GetNode<Beatroot.Beetroot>("../Beetroot");
+		weed.Connect("Killed", beetroot, "Heal");
+	}
 }
