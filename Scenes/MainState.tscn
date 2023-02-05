@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scripts/MainState.cs" type="Script" id=1]
 [ext_resource path="res://Art/Ground.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Scenes/DebugHUD.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Art/SkyNight.png" type="Texture" id=10]
 [ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/BGMusic.tscn" type="PackedScene" id=12]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -88,6 +89,8 @@ position = Vector2( 362, 840 )
 
 [node name="Beetroot" parent="." instance=ExtResource( 4 )]
 position = Vector2( 368, 1353 )
+
+[node name="BGMusic" parent="." instance=ExtResource( 12 )]
 
 [connection signal="timeout" from="TransitionToNightTimer" to="." method="OnTransitionToNightTimerTimeout"]
 [connection signal="timeout" from="TransitionToDayTimer" to="." method="OnTransitionToDayTimerTimeout"]
