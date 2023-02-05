@@ -7,7 +7,7 @@
 [ext_resource path="res://Art/LeafParticle1.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 81.5, 135 )
+extents = Vector2( 157.5, 276.5 )
 
 [sub_resource type="Gradient" id=4]
 offsets = PoolRealArray( 0.441341, 1 )
@@ -56,16 +56,15 @@ tracks/2/keys = {
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -1.5, -135 )
+position = Vector2( -1.5, -276.5 )
 shape = SubResource( 3 )
 
 [node name="SpriteRoot" type="Node2D" parent="."]
 rotation = -1.5708
 
 [node name="Sprite" type="Sprite" parent="SpriteRoot"]
-position = Vector2( 135, 0 )
+position = Vector2( 274, 0.000488281 )
 rotation = 1.5708
-scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 
 [node name="StartPosition" type="Node2D" parent="."]
