@@ -85,7 +85,6 @@ __meta__ = {
 }
 
 [node name="DebugHUD" parent="." instance=ExtResource( 9 )]
-visible = false
 
 [node name="HealthBar" parent="." instance=ExtResource( 11 )]
 position = Vector2( 362, 840 )

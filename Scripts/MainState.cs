@@ -25,6 +25,8 @@ public class MainState : Node
 	private float transitioningRatio = 1.0f;
 
 	private int score = 0;
+
+	private int round = 0;
 	
 	public bool IsNight
 	{
@@ -61,6 +63,7 @@ public class MainState : Node
 	{
 		isSpawningMobs = true;
 		GetNode<Timer>("MobSpawnerTimer").Start();
+		round++;
 	}
 	
 	private void StopMobSpawning()
@@ -165,10 +168,10 @@ public class MainState : Node
 		AddChild(mob);
 		ConnectMobEatingSignal(mob);
 		mob.Connect("Killed", this, "AddScore");
-		mob.CrawlSpeed = 150.0f;
+		mob.CrawlSpeed = 50.0f + (25f * (float)round);
 		mob.Position = mobSpawnPosition;
 		mob.TargetPosition = beetroot.Position;
-		GD.Print("Created new mob");
+		GD.Print("Created new mob with speed: " + mob.CrawlSpeed);
 	}
 
 	private void OnDebugHUDSwitchDayNightPressed()

@@ -233,7 +233,7 @@ public class Mob : Area2D
 			// when the objects are freed.
 			currentDirection = currentDirection.Rotated(-angleDelta);
 			// Move towards the desired direction
-			Vector2 moveDelta = currentDirection.LimitLength(CrawlSpeed * delta);
+			Vector2 moveDelta = currentDirection.Normalized() * CrawlSpeed * delta;
 			//Vector2 moveDelta = toTarget.LimitLength(CrawlSpeed * delta);
 			Position += moveDelta;
 		}
