@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/squish.mp3-54b57a9bddd6bce715fe6f63e67d2dd9.mp3str"
+
+[deps]
+
+source_file="res://Audio/SFX/squish.mp3"
+dest_files=[ "res://.import/squish.mp3-54b57a9bddd6bce715fe6f63e67d2dd9.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

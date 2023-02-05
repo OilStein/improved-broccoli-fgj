@@ -96,8 +96,9 @@ public class Mob : Area2D
 		StopEating();
 		StopAnimation();
 		Input.VibrateHandheld(100);
+		GetNode<AnimationPlayer>("BloodSplash/Animator").Play("Splash");
+		GetNode<CPUParticles2D>("BloodParticle").Emitting = true;
 		// TODO: Increment resources / points
-		// TODO: Emit particles
 		// TODO: Play splat sound
 		isSplat = true;
 		GetNode<Timer>("SplatTimer").Start();
