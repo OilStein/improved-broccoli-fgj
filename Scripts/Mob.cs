@@ -12,7 +12,13 @@ public class Mob : Area2D
 	public float[] ColliderHeights;
 
 	[Export]
-	public AudioStreamMP3 clip;
+	public AudioStreamMP3[] BugClip;
+
+	[Export]
+	public AudioStreamMP3[] SlapClip;
+
+	[Export]
+	public AudioStreamMP3[] SquishClip;
 
 	private bool isMoving = true;
 	private bool isEating = false;
@@ -109,12 +115,23 @@ public class Mob : Area2D
 
 	private void SplatSound()
 	{
-		var sound = GetNode<AudioStreamPlayer2D>("Splat");
-		sound.Stream = clip;
-		sound.Play();
+		var bugSound = GetNode<AudioStreamPlayer2D>("Bug");
+		bugSound.Stream = BugClip[GetRand(BugClip.Length)];
+		bugSound.Play();
 
+		var slapSound = GetNode<AudioStreamPlayer2D>("Slap");
+		slapSound.Stream = SlapClip[GetRand(SlapClip.Length)];
+		slapSound.Play();
+
+		var squishSound = GetNode<AudioStreamPlayer2D>("Slap");
+		squishSound.Stream = SquishClip[GetRand(SquishClip.Length)];
+		squishSound.Play();
 	}
 	
+	private int GetRand(int l){
+		return new Random().Next(0, l-1);
+	}
+
 	// Fade the mob away
 	public void Fadeout()
 	{
