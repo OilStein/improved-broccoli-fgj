@@ -14,8 +14,8 @@ public class Mob : Area2D
 	[Export]
 	public AudioStreamMP3[] BugClip;
 
-	[Export]
-	public AudioStreamMP3[] SlapClip;
+	//[Export]
+	//public AudioStreamMP3[] SlapClip;
 
 	[Export]
 	public AudioStreamMP3[] SquishClip;
@@ -101,7 +101,7 @@ public class Mob : Area2D
 	// Squish the mob
 	public void Splat()
 	{
-		StopMoving();
+        StopMoving();
 		StopEating();
 		StopAnimation();
 		Input.VibrateHandheld(100);
@@ -114,21 +114,23 @@ public class Mob : Area2D
 
 	private void SplatSound()
 	{
-		var bugSound = GetNode<AudioStreamPlayer2D>("Bug");
-		bugSound.Stream = BugClip[GetRand(BugClip.Length)];
-		bugSound.Play();
+        var squishSound = GetNode<AudioStreamPlayer2D>("Squish");
+        squishSound.Stream = SquishClip[GetRand(SquishClip.Length)];
+        squishSound.Play();
 
-		var slapSound = GetNode<AudioStreamPlayer2D>("Slap");
-		slapSound.Stream = SlapClip[GetRand(SlapClip.Length)];
-		slapSound.Play();
-
-		var squishSound = GetNode<AudioStreamPlayer2D>("Slap");
-		squishSound.Stream = SquishClip[GetRand(SquishClip.Length)];
-		squishSound.Play();
+		if (new Random().Next(0, 100) > 80)
+		{
+            var bugSound = GetNode<AudioStreamPlayer2D>("Bug");
+            bugSound.Stream = BugClip[GetRand(BugClip.Length)];
+            bugSound.Play();
+        }
+		//var slapSound = GetNode<AudioStreamPlayer2D>("Slap");
+		//slapSound.Stream = SlapClip[GetRand(SlapClip.Length)];
+		//slapSound.Play();
 	}
 	
 	private int GetRand(int l){
-		return new Random().Next(0, l-1);
+		return new Random().Next(0, l);
 	}
 
 	// Fade the mob away
