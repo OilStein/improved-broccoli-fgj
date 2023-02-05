@@ -123,10 +123,10 @@ public class Mob : Area2D
         squishSound.Stream = SquishClip[GetRand(SquishClip.Length)];
         squishSound.Play();
 
-		if (new Random().Next(0, 100) > 80)
+		if (new Random().Next(0, 100) > 60)
 		{
             var bugSound = GetNode<AudioStreamPlayer2D>("Bug");
-			bugSound.VolumeDb = 10;
+			bugSound.VolumeDb = 15;
             bugSound.Stream = BugClip[GetRand(BugClip.Length)];
             bugSound.Play();
         }

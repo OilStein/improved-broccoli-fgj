@@ -14,9 +14,11 @@ public class BGMusic : Node
 	public override void _Ready()
 	{
 		day = GetNode<AudioStreamPlayer>("Day");
+		day.VolumeDb = -10;
 		GD.Print("Day soundtrack");
 
 		night = GetNode<AudioStreamPlayer>("Night");
+		night.VolumeDb = -10;
 		GD.Print("BG audio script loaded");
 
 		var mainState = GetParent<MainState>();
