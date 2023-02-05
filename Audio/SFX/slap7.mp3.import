@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/slap7.mp3-c9c42ad5d504165ac659e9dc52e75218.mp3str"
+
+[deps]
+
+source_file="res://Audio/SFX/slap7.mp3"
+dest_files=[ "res://.import/slap7.mp3-c9c42ad5d504165ac659e9dc52e75218.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
