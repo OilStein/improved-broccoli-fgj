@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/Mob.cs" type="Script" id=1]
 [ext_resource path="res://Art/Mob3_2.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Art/Mob2_2.png" type="Texture" id=5]
 [ext_resource path="res://Art/Mob3_1.png" type="Texture" id=6]
 [ext_resource path="res://Art/Mob1_1.png" type="Texture" id=7]
+[ext_resource path="res://Audio/SFX/bug1.mp3" type="AudioStream" id=8]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -36,6 +37,7 @@ z_index = 15
 script = ExtResource( 1 )
 ColliderRadiuses = PoolRealArray( 32, 40, 74 )
 ColliderHeights = PoolRealArray( 10, 10, 6 )
+clip = ExtResource( 8 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
@@ -57,6 +59,8 @@ one_shot = true
 
 [node name="FadeoutTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Splat" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="area_entered" from="." to="." method="OnAreaEntered"]
 [connection signal="input_event" from="." to="." method="OnInputEvent"]

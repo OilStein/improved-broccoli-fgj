@@ -11,6 +11,9 @@ public class Mob : Area2D
 	[Export]
 	public float[] ColliderHeights;
 
+	[Export]
+	public AudioStreamMP3 clip;
+
 	private bool isMoving = true;
 	private bool isEating = false;
 	private bool isSplat = false;
@@ -28,7 +31,7 @@ public class Mob : Area2D
 	private float maxDirectionChangeInterval = 6.0f;
 	
 	private float fadeRatio = 0.0f;
-	
+
 	public bool IsMoving {
 		get => isMoving;
 		set => isMoving = value;
@@ -99,8 +102,17 @@ public class Mob : Area2D
 		// TODO: Increment resources / points
 		// TODO: Emit particles
 		// TODO: Play splat sound
+		SplatSound();
 		isSplat = true;
 		GetNode<Timer>("SplatTimer").Start();
+	}
+
+	private void SplatSound()
+	{
+		var sound = GetNode<AudioStreamPlayer2D>("Splat");
+		sound.Stream = clip;
+		sound.Play();
+
 	}
 	
 	// Fade the mob away
