@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/bug6.mp3-45eeaf83e6804e8af2f5e7723e448ed3.mp3str"
+
+[deps]
+
+source_file="res://Audio/SFX/bug6.mp3"
+dest_files=[ "res://.import/bug6.mp3-45eeaf83e6804e8af2f5e7723e448ed3.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
