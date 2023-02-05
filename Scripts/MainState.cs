@@ -172,6 +172,7 @@ public class MainState : Node
 	public override void _Ready()
 	{
 		GetNode<Beatroot.Beetroot>("Beetroot").Connect("HealthChanged", this, "OnBeetrootHealthChange");
+		GetNode<WeedSpawner>("WeedSpawner").Start();
 	}
 	
 	private void UpdateDebugHUD()

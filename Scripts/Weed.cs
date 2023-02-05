@@ -30,7 +30,7 @@ public class Weed : Area2D
 	{
 		sprite.Hide();
 		particles.Emitting = true;
-		Input.VibrateHandheld(200);
+		Input.VibrateHandheld(100);
 		var deathTimer = GetNode<Timer>("DeathTimer");
 		deathTimer.Connect("timeout", this, "OnDeathParticleTimeout");
 		deathTimer.Start();
