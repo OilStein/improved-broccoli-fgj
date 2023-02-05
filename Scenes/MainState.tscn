@@ -100,5 +100,6 @@ position = Vector2( 368, 1353 )
 [connection signal="timeout" from="DayNightCycleTimer" to="." method="OnDayNightCycleTimerTimeout"]
 [connection signal="timeout" from="MobSpawnerTimer" to="." method="OnMobSpawnerTimerTimeout"]
 [connection signal="SwitchDayNightPressed" from="DebugHUD" to="." method="OnDebugHUDSwitchDayNightPressed"]
+[connection signal="HealthChanged" from="Beetroot" to="HealthBar" method="SetHealth"]
 
 [editable path="WeedSpawner"]
