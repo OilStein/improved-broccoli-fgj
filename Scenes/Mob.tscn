@@ -10,36 +10,6 @@
 [ext_resource path="res://Art/BloodSplash1.png" type="Texture" id=8]
 [ext_resource path="res://Art/BloodDrop.png" type="Texture" id=9]
 
-[sub_resource type="Animation" id=3]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ) ]
-}
-
-[sub_resource type="Animation" id=4]
-resource_name = "Splash"
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 0.210224, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 2, 2 ) ]
-}
-
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 7 ), ExtResource( 4 ) ],
@@ -66,6 +36,85 @@ height = 6.0
 [sub_resource type="Curve" id=5]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
+[sub_resource type="Animation" id=6]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BloodSplash:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1e-05, 1e-05 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "Splash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BloodSplash:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 0.307786, 1 ),
+"update": 0,
+"values": [ Vector2( 1e-05, 1e-05 ), Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
 [node name="Mob" type="Area2D" groups=["mobs"]]
 z_index = 15
 script = ExtResource( 1 )
@@ -75,10 +124,6 @@ ColliderHeights = PoolRealArray( 10, 10, 6 )
 [node name="BloodSplash" type="Sprite" parent="."]
 scale = Vector2( 1e-05, 1e-05 )
 texture = ExtResource( 8 )
-
-[node name="Animator" type="AnimationPlayer" parent="BloodSplash"]
-anims/RESET = SubResource( 3 )
-anims/Splash = SubResource( 4 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
@@ -96,6 +141,7 @@ autostart = true
 wait_time = 0.3
 
 [node name="SplatTimer" type="Timer" parent="."]
+wait_time = 0.1
 one_shot = true
 
 [node name="FadeoutTimer" type="Timer" parent="."]
@@ -117,6 +163,10 @@ initial_velocity = 200.0
 initial_velocity_random = 0.2
 scale_amount = 2.0
 scale_amount_curve = SubResource( 5 )
+
+[node name="SplashAnimator" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 6 )
+anims/Splash = SubResource( 7 )
 
 [connection signal="area_entered" from="." to="." method="OnAreaEntered"]
 [connection signal="input_event" from="." to="." method="OnInputEvent"]
