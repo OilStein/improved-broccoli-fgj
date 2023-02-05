@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Audio/BG/fgj23day.wav" type="AudioStream" id=1]
+
+[node name="BGMusic" type="Node"]
+
+[node name="Day" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+autoplay = true
+
+[node name="Night" type="AudioStreamPlayer" parent="."]
