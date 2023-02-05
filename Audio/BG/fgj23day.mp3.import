@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/fgj23day.mp3-121ef85854298187db576f0ff21bbe72.mp3str"
+
+[deps]
+
+source_file="res://Audio/BG/fgj23day.mp3"
+dest_files=[ "res://.import/fgj23day.mp3-121ef85854298187db576f0ff21bbe72.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
