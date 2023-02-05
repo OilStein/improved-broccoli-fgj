@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/fgj23night.mp3-18a617c569fb7cc1a32396b7c1ee13eb.mp3str"
+
+[deps]
+
+source_file="res://Audio/BG/fgj23night.mp3"
+dest_files=[ "res://.import/fgj23night.mp3-18a617c569fb7cc1a32396b7c1ee13eb.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

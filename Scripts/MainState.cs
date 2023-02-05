@@ -20,6 +20,8 @@ public class MainState : Node
 	private bool isSpawningMobs = false;
 	// 1 during day, 0 during night, interpolated while transitioning.
 	private float transitioningRatio = 1.0f;
+
+	private int score = 0;
 	
 	public bool IsNight
 	{
@@ -35,7 +37,7 @@ public class MainState : Node
 	{
 		if (health <= 0)
 		{
-			EmitSignal(nameof(GameOver), 0);
+			EmitSignal(nameof(GameOver), score);
 		}
 	}
 	
@@ -157,6 +159,7 @@ public class MainState : Node
 		var mob = (Mob)mobScene.Instance();
 		AddChild(mob);
 		ConnectMobEatingSignal(mob);
+		mob.Connect("Killed", this, "AddScore");
 		mob.CrawlSpeed = 50.0f;
 		mob.Position = mobSpawnPosition;
 		mob.TargetPosition = beetroot.Position;
@@ -222,5 +225,10 @@ public class MainState : Node
 	{
 		UpdateDebugHUD();
 		UpdateTransitioning();
+	}
+
+	public void AddScore()
+	{
+		score++;
 	}
 }

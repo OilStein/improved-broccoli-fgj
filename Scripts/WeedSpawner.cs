@@ -67,5 +67,7 @@ public class WeedSpawner : Node
 	{
 		var beetroot = GetNode<Beatroot.Beetroot>("../Beetroot");
 		weed.Connect("Killed", beetroot, "Heal");
+        var mainState = GetParent<MainState>();
+        weed.Connect("Killed", mainState, "AddScore");
 	}
 }

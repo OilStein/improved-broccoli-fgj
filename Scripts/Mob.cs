@@ -6,7 +6,10 @@ public class Mob : Area2D
 	[Signal]
 	public delegate void EatingBeetroot();
 
-	[Export]
+    [Signal]
+    public delegate void Killed();
+
+    [Export]
 	public float[] ColliderRadiuses;
 	[Export]
 	public float[] ColliderHeights;
@@ -96,7 +99,7 @@ public class Mob : Area2D
 		StopEating();
 		StopAnimation();
 		Input.VibrateHandheld(100);
-		// TODO: Increment resources / points
+		EmitSignal("Killed");
 		// TODO: Emit particles
 		// TODO: Play splat sound
 		isSplat = true;
