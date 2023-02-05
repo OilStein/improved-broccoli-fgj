@@ -6,7 +6,10 @@ public class Mob : Area2D
 	[Signal]
 	public delegate void EatingBeetroot();
 
-	[Export]
+    [Signal]
+    public delegate void Killed();
+
+    [Export]
 	public float[] ColliderRadiuses;
 	[Export]
 	public float[] ColliderHeights;
@@ -99,6 +102,8 @@ public class Mob : Area2D
 		GetNode<AnimationPlayer>("BloodSplash/Animator").Play("Splash");
 		GetNode<CPUParticles2D>("BloodParticle").Emitting = true;
 		// TODO: Increment resources / points
+		EmitSignal("Killed");
+		// TODO: Emit particles
 		// TODO: Play splat sound
 		isSplat = true;
 		GetNode<Timer>("SplatTimer").Start();
