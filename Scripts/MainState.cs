@@ -3,6 +3,9 @@ using System;
 
 public class MainState : Node
 {
+	[Signal]
+	public delegate void GameOver(int score);
+
 #pragma warning disable 649
 	// We assign this in the editor, so we don't need the warning about not being assigned.
 	[Export]
