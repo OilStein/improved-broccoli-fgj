@@ -165,7 +165,7 @@ public class MainState : Node
 		AddChild(mob);
 		ConnectMobEatingSignal(mob);
 		mob.Connect("Killed", this, "AddScore");
-		mob.CrawlSpeed = 50.0f;
+		mob.CrawlSpeed = 150.0f;
 		mob.Position = mobSpawnPosition;
 		mob.TargetPosition = beetroot.Position;
 		GD.Print("Created new mob");
