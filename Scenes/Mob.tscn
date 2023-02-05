@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Scripts/Mob.cs" type="Script" id=1]
 [ext_resource path="res://Art/Mob3_2.png" type="Texture" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://Art/Mob1_1.png" type="Texture" id=7]
 [ext_resource path="res://Art/BloodSplash1.png" type="Texture" id=8]
 [ext_resource path="res://Art/BloodDrop.png" type="Texture" id=9]
+[ext_resource path="res://Art/Mole_2.png" type="Texture" id=10]
+[ext_resource path="res://Art/Mole_1.png" type="Texture" id=11]
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -72,19 +74,105 @@ animations = [ {
 "loop": true,
 "name": "Bug3",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 11 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "Bug4",
+"speed": 5.0
 } ]
 
 [sub_resource type="CapsuleShape2D" id=2]
 resource_local_to_scene = true
-radius = 74.0
-height = 6.0
+radius = 164.0
+height = 130.66
 
 [sub_resource type="Curve" id=5]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
+[sub_resource type="Animation" id=6]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BloodSplash:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1e-05, 1e-05 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "Splash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BloodSplash:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 0.307786, 1 ),
+"update": 0,
+"values": [ Vector2( 1e-05, 1e-05 ), Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
 [node name="Mob" type="Area2D" groups=["mobs"]]
 z_index = 15
 script = ExtResource( 1 )
+ColliderRadiuses = PoolRealArray( 32, 40, 74, 160 )
+ColliderHeights = PoolRealArray( 10, 10, 6, 130 )
 ColliderRadiuses = PoolRealArray( 32, 40, 74 )
 ColliderHeights = PoolRealArray( 10, 10, 6 )
 BugClip = [ ExtResource( 8 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 9 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 28 ) ]
@@ -94,13 +182,9 @@ SquishClip = [ ExtResource( 17 ), ExtResource( 26 ) ]
 scale = Vector2( 1e-05, 1e-05 )
 texture = ExtResource( 8 )
 
-[node name="Animator" type="AnimationPlayer" parent="BloodSplash"]
-anims/RESET = SubResource( 3 )
-anims/Splash = SubResource( 4 )
-
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-animation = "Bug3"
+animation = "Bug4"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
@@ -114,6 +198,7 @@ autostart = true
 wait_time = 0.3
 
 [node name="SplatTimer" type="Timer" parent="."]
+wait_time = 0.1
 one_shot = true
 
 [node name="FadeoutTimer" type="Timer" parent="."]
@@ -141,6 +226,10 @@ scale_amount_curve = SubResource( 5 )
 [node name="Slap" type="AudioStreamPlayer2D" parent="."]
 
 [node name="Squish" type="AudioStreamPlayer2D" parent="."]
+
+[node name="SplashAnimator" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 6 )
+anims/Splash = SubResource( 7 )
 
 [connection signal="area_entered" from="." to="." method="OnAreaEntered"]
 [connection signal="input_event" from="." to="." method="OnInputEvent"]

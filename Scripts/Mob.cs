@@ -107,9 +107,7 @@ public class Mob : Area2D
         StopMoving();
 		StopEating();
 		StopAnimation();
-		Input.VibrateHandheld(100);
-		GetNode<AnimationPlayer>("BloodSplash/Animator").Play("Splash");
-		GetNode<CPUParticles2D>("BloodParticle").Emitting = true;
+		GetNode<AnimationPlayer>("SplashAnimator").Play("Splash");
 		// TODO: Increment resources / points
 		EmitSignal("Killed");
 		// TODO: Emit particles
@@ -204,6 +202,8 @@ public class Mob : Area2D
 	// Called some time after a splat
 	private void OnSplatTimerTimeout()
 	{
+		GetNode<CPUParticles2D>("BloodParticle").Emitting = true;
+		Input.VibrateHandheld(100);
 		GetNode<Timer>("FadeoutTimer").Start();
 	}
 	
@@ -240,18 +240,5 @@ public class Mob : Area2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(float delta)
 	{
-		if (isFading) {
-			var timer = GetNode<Timer>("FadeoutTimer");
-			if (timer != null) {
-				fadeRatio = timer.TimeLeft / timer.WaitTime;
-				// Set sprite alpha
-				var sprite = GetNode<AnimatedSprite>("AnimatedSprite");
-				if (sprite != null) {
-					var color = sprite.Modulate;
-					color = new Color(color.r, color.g, color.b, fadeRatio);
-					sprite.Modulate = color;
-				}
-			}
-		}
 	}
 }
